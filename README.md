@@ -49,3 +49,13 @@ all:
 ```
 Linux 环境的准备工作须执行 `dkfdkfdksl`.
 docker swarm 的配置更新执行 `dfdf`.
+
+### 执行 Ansible playbook
+```
+# 检查playbook语法
+ansible-lint playbook.yml
+# 将sudo用户密码加密
+ansible-vault encrypt_string 'foobar' --name 'the_secret'
+# 执行playbook vault 默认密码：123456
+ansible-playbook --ask-vault-pass playbook.yml -i ~/ansible/hosts
+```
