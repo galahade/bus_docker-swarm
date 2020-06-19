@@ -58,4 +58,8 @@ ansible-lint playbook.yml
 ansible-vault encrypt_string 'foobar' --name 'the_secret'
 # 执行playbook vault 默认密码：123456
 ansible-playbook --ask-vault-pass playbook.yml -i ~/ansible/hosts
+# 执行docker swarm 工作 
+ansible-playbook --ask-vault-pass playbook.yml -i ~/ansible/hosts --tags "run"
+# 执行docker 安装工作  
+ansible-playbook --ask-vault-pass playbook.yml -i ~/ansible/hosts --tags "build"
 ```
