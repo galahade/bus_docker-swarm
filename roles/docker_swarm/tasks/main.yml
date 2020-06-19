@@ -17,7 +17,6 @@
     docker_current_version: "{{ docker_vsn.stdout | regex_search('(\\d+(\\.\\d+)+)') }}"
   when:
     - docker_vsn.stdout is defined
-  changed_when: ‘“Docker version:” docker_current_version’
 
 - name: Docker swarm | Check current docker-compose version
   command: docker-compose --version
@@ -31,12 +30,14 @@
     docker_compose_current_version: "{{ docker_compose_vsn.stdout | regex_search('(\\d+(\\.\\d+)+)') }}"
   when:
     - docker_compose_vsn.stdout is defined
-  changed_when: ‘“Docker version:” docker_compose_current_version'
 
-  - name: Docker swarm | Check if docker and docker-compose version is lower than require
+- debug:
+    msg: "Docker version: {{ docker_current_version }} And Compose version: {{ docker_compose_current_version }}"
+
+- name: Docker swarm | Check if docker and docker-compose version is lower than require
   command: /bin/false
   failed_when: >
     (docker_current_version is version(docker_version, '<')) or
     (docker_compose_current_version is version(docker_compose_version, '<'))
-  changed_when: fasle
+  changed_when: false
     
