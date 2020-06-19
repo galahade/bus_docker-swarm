@@ -63,3 +63,5 @@ ansible-playbook --ask-vault-pass playbook.yml -i ~/ansible/hosts --tags "run"
 # 执行docker 安装工作  
 ansible-playbook --ask-vault-pass playbook.yml -i ~/ansible/hosts --tags "build"
 ```
+
+`docker stack deploy -c docker-compose.yml netdata`
