@@ -4,3 +4,11 @@
       become: yes
       become-method: sudo
       ansible_become_password: "{{ sudo_vault_passwd }}"
+      tag: build
+    - role: docker_swarm
+      become: yes
+      become-method: sudo
+      ansible_become_password: "{{ sudo_vault_passwd }}"
+      - block: 
+        any_errors_fatal: true
+      tag: run

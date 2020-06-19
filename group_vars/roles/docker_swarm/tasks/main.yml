@@ -1,0 +1,42 @@
+---
+- name: Docker swarm | Ensure docker is installed and is running
+  service:
+    name: docker
+    state: started
+    enabled: true
+
+- name: Docker swarm | Check current docker version
+  command: docker --version
+  register: docker_vsn
+  changed_when: false
+  failed_when: false
+  check_mode: no
+
+- name: Docker swarm | Set docker current version
+  set_fact:
+    docker_current_version: "{{ docker_vsn.stdout | regex_search('(\\d+(\\.\\d+)+)') }}"
+  when:
+    - docker_vsn.stdout is defined
+  changed_when: ‘“Docker version:” docker_current_version’
+
+- name: Docker swarm | Check current docker-compose version
+  command: docker-compose --version
+  register: docker_compose_vsn
+  changed_when: false
+  failed_when: false
+  check_mode: no
+
+- name: Docker swarm | Set docker compose current version
+  set_fact:
+    docker_compose_current_version: "{{ docker_compose_vsn.stdout | regex_search('(\\d+(\\.\\d+)+)') }}"
+  when:
+    - docker_compose_vsn.stdout is defined
+  changed_when: ‘“Docker version:” docker_compose_current_version'
+
+  - name: Docker swarm | Check if docker and docker-compose version is lower than require
+  command: /bin/false
+  failed_when: >
+    (docker_current_version is version(docker_version, '<')) or
+    (docker_compose_current_version is version(docker_compose_version, '<'))
+  changed_when: fasle
+    
